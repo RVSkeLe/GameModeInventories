@@ -178,17 +178,17 @@ public class GameModeInventoriesPhysicsListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onBlockPhysics(BlockPhysicsEvent event) {
+        if (!GameModeInventories.trackCreativePlace || !GameModeInventories.trackCreativePlaceAttachedBlock) {
+            return;
+        }
         Block block = event.getBlock();
         if (block == null) {
             return;
         }
+        if (!GameModeInventories.trackCreativePlaceWorlds.contains(block.getWorld().getName())) {
+            return;
+        }
         if (!willDrop.contains(block.getType())) {
-            return;
-        }
-        if (!plugin.getConfig().getBoolean("track_creative_place.enabled") || !plugin.getConfig().getBoolean("track_creative_place.attached_block")) {
-            return;
-        }
-        if (!plugin.getConfig().getStringList("track_creative_place.worlds").contains(block.getWorld().getName())) {
             return;
         }
         if (doors.contains(block.getType()) && plates.contains(event.getChangedType())) {

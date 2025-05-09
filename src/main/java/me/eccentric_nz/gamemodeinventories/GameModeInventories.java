@@ -36,6 +36,9 @@ public class GameModeInventories extends JavaPlugin {
     private GMIDebug db_level;
     private String prefix;
     private HikariDataSource dataSource;
+    public static boolean trackCreativePlace = false;
+    public static boolean trackCreativePlaceAttachedBlock = false;
+    public static List<String> trackCreativePlaceWorlds = new ArrayList<>();
 
     @Override
     public void onDisable() {
@@ -98,6 +101,9 @@ public class GameModeInventories extends JavaPlugin {
                 db_level = GMIDebug.ERROR;
             }
             inventoryHandler = new GameModeInventoriesInventory(this);
+            trackCreativePlace = getConfig().getBoolean("track_creative_place.enabled");
+            trackCreativePlaceAttachedBlock = getConfig().getBoolean("track_creative_place.attached_block");
+            trackCreativePlaceWorlds = getConfig().getStringList("track_creative_place.worlds");
             pm.registerEvents(new GameModeInventoriesListener(this), this);
             pm.registerEvents(new GameModeInventoriesChunkLoadListener(this), this);
             pm.registerEvents(new GameModeInventoriesDeath(this), this);
